@@ -1,0 +1,21 @@
+{
+  "name": "rendering-context-benchmark",
+  "version": "0.0.1",
+  "description": "Draw image on canvas and measure performance",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["canvas", "webgl", "example"],
+  "author": "Mario Krešić",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "yy-fps": "^2.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7"
+  }
+}

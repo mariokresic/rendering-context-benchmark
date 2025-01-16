@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="stylesheet" href="src/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rendering context example</title>
+</head>
+<body>
+<div id="app">
+  <div id="controls">
+    <fieldset id="graphics">
+      <legend>Graphics</legend>
+      <label for="g1">
+        <input type="radio" name="graphics" id="g1" value="2d" checked />
+        2d
+      </label>
+      <label for="g2">
+        <input type="radio" name="graphics" id="g2" value="webgl2" />
+        webgl2
+      </label>
+    </fieldset>
+    <fieldset id="resolution">
+      <legend>Resolution</legend>
+      <label for="r1">
+        <input type="radio" name="resolution" id="r1" value="1080p" checked /> 1080p
+      </label>
+      <label for="r2">
+        <input type="radio" name="resolution" id="r2" value="4k" /> 4k
+      </label>
+      <label for="r3">
+        <input type="radio" name="resolution" id="r3" value="8k" /> 8k
+      </label>
+      <label for="r3">
+        <input type="radio" name="resolution" id="r4" value="16k" /> 16k
+      </label>
+    </fieldset>
+    <label for="transferable">
+      <input
+        type="checkbox"
+        name="transferable"
+        id="transferable"
+        checked />
+      Use transferables
+    </label>
+    <button id="playPauseButton">Play</button>
+  </div>
+</div>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
