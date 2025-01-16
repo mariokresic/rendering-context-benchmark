@@ -34,7 +34,7 @@ const playPauseButton = document.querySelector("#playPauseButton") as HTMLButton
 
 // state
 let animationFrame: number;
-let randomPixelLocation: number;
+let randomPixelLocation: 0 | 1 = 0;
 let isPlaying = false;
 
 // input state
@@ -96,10 +96,6 @@ playPauseButton.addEventListener("click", () => {
     isPlaying = !isPlaying;
 });
 
-function getRandomArbitrary(min: number, max: number) {
-    return Math.trunc(Math.random() * (max - min) + min);
-}
-
 function get2dContext(): CanvasRenderingContext2D {
     const context = canvas2d.getContext("2d", { willReadFrequently: true });
     if (!context) {
@@ -138,7 +134,7 @@ function draw() {
         ctx.readPixels(0, 0, ctx.drawingBufferWidth, ctx.drawingBufferHeight, ctx.RGBA, ctx.UNSIGNED_BYTE, pixels);
     }
 
-    randomPixelLocation = getRandomArbitrary(0, pixels.length - 1);
+    randomPixelLocation = randomPixelLocation === 0 ? 1 : 0;
     pixels[randomPixelLocation] = 255;
 
     const transferables = useTransferables ? [pixels.buffer] : [];
