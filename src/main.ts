@@ -29,6 +29,7 @@ export type OnMessagePayload = {
 // HTML elements
 const graphicsField = document.querySelector("#graphics") as HTMLFieldSetElement;
 const resolutionField = document.querySelector("#resolution") as HTMLFieldSetElement;
+const workersCheckbox = document.querySelector("#workers") as HTMLInputElement;
 const transferablesCheckbox = document.querySelector("#transferable") as HTMLInputElement;
 const playPauseButton = document.querySelector("#playPauseButton") as HTMLButtonElement;
 
@@ -41,6 +42,7 @@ let isPlaying = false;
 let selectedGraphics = graphicsField.querySelector<HTMLInputElement>("input:checked")!.value as GraphicsKey;
 let selectedResolutionKey = resolutionField.querySelector<HTMLInputElement>("input:checked")!.value as ResolutionKey;
 let resolution = resolutions[selectedResolutionKey];
+let useWorkers = workersCheckbox.checked;
 let useTransferables = transferablesCheckbox.checked;
 
 let pixels: Uint8Array = new Uint8Array(resolution[0] * resolution[1] * 4);
@@ -68,6 +70,16 @@ resolutionField.addEventListener("change", (e) => {
     selectedResolutionKey = (e.target as HTMLInputElement).value as ResolutionKey;
     resolution = resolutions[selectedResolutionKey];
     pixels = new Uint8Array(resolution[0] * resolution[1] * 4);
+
+    if (isPlaying) {
+        cancelAnimationFrame(animationFrame);
+        console.log(`Playing ${selectedGraphics} in ${selectedResolutionKey}...`);
+        animationFrame = requestAnimationFrame(draw);
+    }
+});
+workersCheckbox.addEventListener("change", () => {
+    useWorkers = workersCheckbox.checked;
+    transferablesCheckbox.disabled = !useWorkers;
 
     if (isPlaying) {
         cancelAnimationFrame(animationFrame);
@@ -137,7 +149,11 @@ function draw() {
     randomPixelLocation = randomPixelLocation === 0 ? 1 : 0;
     pixels[randomPixelLocation] = 255;
 
-    const transferables = useTransferables ? [pixels.buffer] : [];
+    if (useWorkers) {
+        const transferables = useTransferables ? [pixels.buffer] : [];
 
-    worker.postMessage({ pixels, useTransferables }, transferables);
+        worker.postMessage({ pixels, useTransferables }, transferables);
+    } else {
+        animationFrame = requestAnimationFrame(draw);
+    }
 }
